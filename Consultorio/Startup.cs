@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
+
+
 namespace Consultorio
 {
     public class Startup
@@ -26,7 +28,8 @@ namespace Consultorio
             services.AddControllers();
             services.AddDbContext<ConsultorioContext>(options =>
             {
-                options.UseMySQL(Configuration.GetConnectionString("Default"));
+                options.UseNpgsql(Configuration.GetConnectionString("Default"));
+                
              });
 
 
@@ -50,6 +53,7 @@ namespace Consultorio
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
