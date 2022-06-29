@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Consultorio.Migrations
 {
-    public partial class RecriandoBancoDeDadosDefinitivo : Migration
+    public partial class BancoDadosModificado : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace Consultorio.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nome = table.Column<string>(type: "text", nullable: false),
-                    ativa = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                    ativa = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,35 +45,11 @@ namespace Consultorio.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nome = table.Column<string>(type: "varchar(100)", nullable: false),
-                    ativo = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                    ativo = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tb_profissional", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EspecialidadeProfissional",
-                columns: table => new
-                {
-                    EspecialidadesId = table.Column<int>(type: "integer", nullable: false),
-                    ProfissionaisId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EspecialidadeProfissional", x => new { x.EspecialidadesId, x.ProfissionaisId });
-                    table.ForeignKey(
-                        name: "FK_EspecialidadeProfissional_tb_especialidade_EspecialidadesId",
-                        column: x => x.EspecialidadesId,
-                        principalTable: "tb_especialidade",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EspecialidadeProfissional_tb_profissional_ProfissionaisId",
-                        column: x => x.ProfissionaisId,
-                        principalTable: "tb_profissional",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -83,69 +59,93 @@ namespace Consultorio.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     data_horario = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    status = table.Column<int>(type: "integer", nullable: false),
                     preco = table.Column<decimal>(type: "numeric(7,2)", precision: 7, scale: 2, nullable: false),
-                    PacienteId = table.Column<int>(type: "integer", nullable: false),
-                    EspecialidadeId = table.Column<int>(type: "integer", nullable: false),
-                    ProfissionalId = table.Column<int>(type: "integer", nullable: false)
+                    id_paciente = table.Column<int>(type: "integer", nullable: false),
+                    id_especialidade = table.Column<int>(type: "integer", nullable: false),
+                    id_profissional = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tb_consulta", x => x.id);
                     table.ForeignKey(
-                        name: "FK_tb_consulta_tb_especialidade_EspecialidadeId",
-                        column: x => x.EspecialidadeId,
+                        name: "FK_tb_consulta_tb_especialidade_id_especialidade",
+                        column: x => x.id_especialidade,
                         principalTable: "tb_especialidade",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tb_consulta_tb_paciente_PacienteId",
-                        column: x => x.PacienteId,
+                        name: "FK_tb_consulta_tb_paciente_id_paciente",
+                        column: x => x.id_paciente,
                         principalTable: "tb_paciente",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tb_consulta_tb_profissional_ProfissionalId",
-                        column: x => x.ProfissionalId,
+                        name: "FK_tb_consulta_tb_profissional_id_profissional",
+                        column: x => x.id_profissional,
+                        principalTable: "tb_profissional",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tb_profissional_especialidade",
+                columns: table => new
+                {
+                    id_profissional = table.Column<int>(type: "integer", nullable: false),
+                    id_especialidade = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tb_profissional_especialidade", x => new { x.id_especialidade, x.id_profissional });
+                    table.ForeignKey(
+                        name: "FK_tb_profissional_especialidade_tb_especialidade_id_especiali~",
+                        column: x => x.id_especialidade,
+                        principalTable: "tb_especialidade",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tb_profissional_especialidade_tb_profissional_id_profission~",
+                        column: x => x.id_profissional,
                         principalTable: "tb_profissional",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EspecialidadeProfissional_ProfissionaisId",
-                table: "EspecialidadeProfissional",
-                column: "ProfissionaisId");
+                name: "IX_tb_consulta_id_especialidade",
+                table: "tb_consulta",
+                column: "id_especialidade");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tb_consulta_EspecialidadeId",
+                name: "IX_tb_consulta_id_paciente",
                 table: "tb_consulta",
-                column: "EspecialidadeId");
+                column: "id_paciente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tb_consulta_PacienteId",
+                name: "IX_tb_consulta_id_profissional",
                 table: "tb_consulta",
-                column: "PacienteId");
+                column: "id_profissional");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tb_consulta_ProfissionalId",
-                table: "tb_consulta",
-                column: "ProfissionalId");
+                name: "IX_tb_profissional_especialidade_id_profissional",
+                table: "tb_profissional_especialidade",
+                column: "id_profissional");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EspecialidadeProfissional");
-
-            migrationBuilder.DropTable(
                 name: "tb_consulta");
 
             migrationBuilder.DropTable(
-                name: "tb_especialidade");
+                name: "tb_profissional_especialidade");
 
             migrationBuilder.DropTable(
                 name: "tb_paciente");
+
+            migrationBuilder.DropTable(
+                name: "tb_especialidade");
 
             migrationBuilder.DropTable(
                 name: "tb_profissional");

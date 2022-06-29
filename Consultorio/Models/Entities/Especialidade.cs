@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Consultorio.Models.Entites
+namespace Consultorio.Models.Entities
 {
     public class Especialidade : Base
     {

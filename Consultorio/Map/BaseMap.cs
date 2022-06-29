@@ -1,4 +1,4 @@
-﻿using Consultorio.Models.Entites;
+﻿using Consultorio.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

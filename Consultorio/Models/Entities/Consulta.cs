@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Consultorio.Models.Entites
+namespace Consultorio.Models.Entities
 {
     public class Consulta : Base
     {

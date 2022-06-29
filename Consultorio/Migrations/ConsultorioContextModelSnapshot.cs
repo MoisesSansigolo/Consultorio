@@ -19,7 +19,7 @@ namespace Consultorio.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Consulta", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Consulta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,9 +49,7 @@ namespace Consultorio.Migrations
                         .HasColumnName("id_profissional");
 
                     b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasDefaultValue(1)
                         .HasColumnName("status");
 
                     b.HasKey("Id");
@@ -65,7 +63,7 @@ namespace Consultorio.Migrations
                     b.ToTable("tb_consulta");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Especialidade", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Especialidade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,9 +72,7 @@ namespace Consultorio.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<bool>("Ativa")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(true)
                         .HasColumnName("ativa");
 
                     b.Property<string>("Nome")
@@ -89,7 +85,7 @@ namespace Consultorio.Migrations
                     b.ToTable("tb_especialidade");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Paciente", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Paciente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +117,7 @@ namespace Consultorio.Migrations
                     b.ToTable("tb_paciente");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Profissional", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Profissional", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,7 +139,7 @@ namespace Consultorio.Migrations
                     b.ToTable("tb_profissional");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.ProfissionalEspecialidade", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.ProfissionalEspecialidade", b =>
                 {
                     b.Property<int>("EspecialidadeId")
                         .HasColumnType("integer")
@@ -160,21 +156,21 @@ namespace Consultorio.Migrations
                     b.ToTable("tb_profissional_especialidade");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Consulta", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Consulta", b =>
                 {
-                    b.HasOne("Consultorio.Models.Entites.Especialidade", "Especialidade")
+                    b.HasOne("Consultorio.Models.Entities.Especialidade", "Especialidade")
                         .WithMany("Consultas")
                         .HasForeignKey("EspecialidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Consultorio.Models.Entites.Paciente", "Paciente")
+                    b.HasOne("Consultorio.Models.Entities.Paciente", "Paciente")
                         .WithMany("Consultas")
                         .HasForeignKey("PacienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Consultorio.Models.Entites.Profissional", "Profissional")
+                    b.HasOne("Consultorio.Models.Entities.Profissional", "Profissional")
                         .WithMany("Consultas")
                         .HasForeignKey("ProfissionalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -187,15 +183,15 @@ namespace Consultorio.Migrations
                     b.Navigation("Profissional");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.ProfissionalEspecialidade", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.ProfissionalEspecialidade", b =>
                 {
-                    b.HasOne("Consultorio.Models.Entites.Especialidade", "Especialidade")
+                    b.HasOne("Consultorio.Models.Entities.Especialidade", "Especialidade")
                         .WithMany()
                         .HasForeignKey("EspecialidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Consultorio.Models.Entites.Profissional", "Profissionais")
+                    b.HasOne("Consultorio.Models.Entities.Profissional", "Profissionais")
                         .WithMany()
                         .HasForeignKey("ProfissionalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -206,17 +202,17 @@ namespace Consultorio.Migrations
                     b.Navigation("Profissionais");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Especialidade", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Especialidade", b =>
                 {
                     b.Navigation("Consultas");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Paciente", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Paciente", b =>
                 {
                     b.Navigation("Consultas");
                 });
 
-            modelBuilder.Entity("Consultorio.Models.Entites.Profissional", b =>
+            modelBuilder.Entity("Consultorio.Models.Entities.Profissional", b =>
                 {
                     b.Navigation("Consultas");
                 });

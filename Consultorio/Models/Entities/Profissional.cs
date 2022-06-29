@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Consultorio.Models.Entites
+namespace Consultorio.Models.Entities
 {
-    public class Paciente : Base
+    public class Profissional : Base
     {
         public string Nome { get; set; }
-        public string Email { get; set; }
-        public string Celular { get; set; }
-        public string Cpf { get; set; }
+        public bool Ativo { get; set; }
         public List<Consulta> Consultas { get; set; }
+        public List<Especialidade> Especialidades { get; set; }
     }
 }
